@@ -18,16 +18,36 @@ namespace Quads
             InitializeComponent();
         }
 
-        private Bitmap drawImage(QuadTreeNode<Pixel, ColorAverage> quadTree)
+        private Bitmap drawImageWithEllipses(QuadTreeNode<Pixel, ColorAverage> quadTree, int spacing)
         {
-            Bitmap result = new Bitmap((int)(quadTree.XMax - quadTree.XMin), (int)(quadTree.YMax - quadTree.YMin));
+            Bitmap result = new Bitmap((int)(quadTree.XMax - quadTree.XMin + spacing), (int)(quadTree.YMax - quadTree.YMin + spacing));
 
             using (Graphics graphics = Graphics.FromImage(result))
             {
+                graphics.FillRectangle(Brushes.Black, 0, 0, result.Width, result.Height);
+
                 foreach (var leaf in quadTree.GetLeafs())
                 {
                     //Console.WriteLine("(" + leaf.XMin + "/" + leaf.YMin + ") width:" + (leaf.XMax - leaf.XMin) + "; height:" + (leaf.YMax - leaf.YMin) + "; error:" + leaf.Average.Error);
-                    graphics.FillRectangle(new SolidBrush(leaf.Average.Color), (int)Math.Floor(leaf.XMin), (int)Math.Floor(leaf.YMin), (int)Math.Ceiling(leaf.XMax - leaf.XMin - double.Epsilon), (int)Math.Ceiling(leaf.YMax - leaf.YMin - double.Epsilon));
+                    graphics.FillEllipse(new SolidBrush(leaf.Average.Color), (float)(leaf.XMin + spacing), (float)(leaf.YMin + spacing), (float)(leaf.XMax - leaf.XMin - spacing), (float)(leaf.YMax - leaf.YMin - spacing));
+                }
+            }
+
+            return result;
+        }
+
+        private Bitmap drawImageWithQuads(QuadTreeNode<Pixel, ColorAverage> quadTree, int spacing)
+        {
+            Bitmap result = new Bitmap((int)(quadTree.XMax - quadTree.XMin + spacing), (int)(quadTree.YMax - quadTree.YMin + spacing));
+
+            using (Graphics graphics = Graphics.FromImage(result))
+            {
+                graphics.FillRectangle(Brushes.Black, 0, 0, result.Width, result.Height);
+
+                foreach (var leaf in quadTree.GetLeafs())
+                {
+                    //Console.WriteLine("(" + leaf.XMin + "/" + leaf.YMin + ") width:" + (leaf.XMax - leaf.XMin) + "; height:" + (leaf.YMax - leaf.YMin) + "; error:" + leaf.Average.Error);
+                    graphics.FillRectangle(new SolidBrush(leaf.Average.Color), (float)(leaf.XMin + spacing), (float)(leaf.YMin + spacing), (float)(leaf.XMax - leaf.XMin - spacing), (float)(leaf.YMax - leaf.YMin - spacing));
                 }
             }
 
@@ -86,7 +106,10 @@ namespace Quads
             for (int i = 0; i < iterations; i++)
                 quadTree = quadTree.Split();
 
-            resultImage.Image = drawImage(quadTree);
+            if ((string)shapeComboBox.SelectedItem == "Quad")
+                resultImage.Image = drawImageWithQuads(quadTree, spacedCheckBox.Checked ? 1 : 0);
+            else if ((string)shapeComboBox.SelectedItem == "Ellipse")
+                resultImage.Image = drawImageWithEllipses(quadTree, spacedCheckBox.Checked ? 1 : 0);
         }
     }
 }
