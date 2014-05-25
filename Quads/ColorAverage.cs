@@ -1,6 +1,6 @@
-﻿using System;
+﻿using SharpColors;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace Quads
@@ -13,47 +13,64 @@ namespace Quads
 
         private const double rWeight = 0.2126;
 
-        public Color Color { get; private set; }
+        public CieLabColor Color { get; private set; }
 
         public double Error { get; private set; }
 
-        public ColorAverage(Color color, double error)
+        public ColorAverage(IEnumerable<Pixel> pixels)
+            : this()
+        {
+            var colors = pixels.Select(pixel => pixel.Color).ToArray();
+
+            Color = getAverageColor(colors);
+            Error = getColorError(Color, colors);
+        }
+
+        public ColorAverage(IEnumerable<ColorAverage> contributors)
+            : this()
+        {
+            var colors = contributors.Select(contributor => contributor.Color);
+
+            Color = getAverageColor(colors);
+            Error = getColorError(Color, colors) + contributors.Sum(contributor => contributor.Error);
+        }
+
+        public ColorAverage(CieLabColor color, double error)
             : this()
         {
             Color = color;
             Error = error;
         }
 
-        public ColorAverage(params ColorAverage[] contributors)
-            : this()
+        private static CieLabColor getAverageColor(IEnumerable<CieLabColor> colors)
         {
-            var colors = contributors.Select(contributor => contributor.Color);
+            double colorCount = colors.Count();
+            double l = colors.Sum(color => color.L) / colorCount;
+            double a = colors.Sum(color => color.A) / colorCount;
+            double b = colors.Sum(color => color.B) / colorCount;
 
-            byte a = (byte)(colors.Sum(color => color.A) / contributors.Length);
-            byte r = (byte)(colors.Sum(color => color.R) / contributors.Length);
-            byte g = (byte)(colors.Sum(color => color.G) / contributors.Length);
-            byte b = (byte)(colors.Sum(color => color.B) / contributors.Length);
-
-            Color = Color.FromArgb(a, r, g, b);
-            Error = (getColorError(Color, colors.ToArray()) + contributors.Sum(contributor => contributor.Error));
+            return new CieLabColor((float)l, (float)a, (float)b);
         }
 
-        private static double getColorError(Color average, params Color[] contributors)
+        private static double getColorError(CieLabColor average, IEnumerable<CieLabColor> contributors)
         {
-            //double aError = getColorPartError(average.A, contributors.Select(color => color.A).ToArray());
-            double rError = getColorPartError(average.R, contributors.Select(color => color.R).ToArray());
-            double gError = getColorPartError(average.G, contributors.Select(color => color.G).ToArray());
-            double bError = getColorPartError(average.B, contributors.Select(color => color.B).ToArray());
+            double error = 0d;
 
-            return (rError * rWeight) + (gError * gWeight) + (bError * bWeight);
+            foreach (CieLabColor contributor in contributors)
+            {
+                // sqrt( (l1 - l2)² + (a1 - a2)² + (b1 - b2)² )
+                error += Math.Pow(average.L - contributor.L, 2) + Math.Pow(average.A - contributor.A, 2) + Math.Pow(average.B - contributor.B, 2);
+            }
+
+            return error;
         }
 
-        private static double getColorPartError(byte average, byte[] contributors)
+        private static double getColorPartError(double average, IEnumerable<double> contributors)
         {
             double error = 0;
             foreach (var contributor in contributors)
             {
-                error += Math.Pow((double)average - (double)contributor, 2);
+                error += Math.Pow(average - contributor, 2);
             }
 
             return Math.Sqrt(error);

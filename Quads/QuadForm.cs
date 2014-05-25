@@ -1,4 +1,5 @@
-﻿using SharpQuadTrees;
+﻿using SharpColors;
+using SharpQuadTrees;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,6 +13,8 @@ namespace Quads
     {
         private int iterations = 1;
         private QuadTreeNode<Pixel, ColorAverage> quadTree;
+        private int steps = 1;
+        private int totalIterations = 0;
 
         public QuadForm()
         {
@@ -28,8 +31,8 @@ namespace Quads
 
                 foreach (var leaf in quadTree.GetLeafs())
                 {
-                    //Console.WriteLine("(" + leaf.XMin + "/" + leaf.YMin + ") width:" + (leaf.XMax - leaf.XMin) + "; height:" + (leaf.YMax - leaf.YMin) + "; error:" + leaf.Average.Error);
-                    graphics.FillEllipse(new SolidBrush(leaf.Average.Color), (float)(leaf.XMin + spacing), (float)(leaf.YMin + spacing), (float)(leaf.XMax - leaf.XMin - spacing), (float)(leaf.YMax - leaf.YMin - spacing));
+                    RgbColor rgbColor = leaf.Average.Color.ToRgb();
+                    graphics.FillEllipse(new SolidBrush(Color.FromArgb(rgbColor.R, rgbColor.G, rgbColor.B)), (float)(leaf.XMin + spacing), (float)(leaf.YMin + spacing), (float)(leaf.XMax - leaf.XMin - spacing), (float)(leaf.YMax - leaf.YMin - spacing));
                 }
             }
 
@@ -46,8 +49,8 @@ namespace Quads
 
                 foreach (var leaf in quadTree.GetLeafs())
                 {
-                    //Console.WriteLine("(" + leaf.XMin + "/" + leaf.YMin + ") width:" + (leaf.XMax - leaf.XMin) + "; height:" + (leaf.YMax - leaf.YMin) + "; error:" + leaf.Average.Error);
-                    graphics.FillRectangle(new SolidBrush(leaf.Average.Color), (float)(leaf.XMin + spacing), (float)(leaf.YMin + spacing), (float)(leaf.XMax - leaf.XMin - spacing), (float)(leaf.YMax - leaf.YMin - spacing));
+                    RgbColor rgbColor = leaf.Average.Color.ToRgb();
+                    graphics.FillRectangle(new SolidBrush(Color.FromArgb(rgbColor.R, rgbColor.G, rgbColor.B)), (float)(leaf.XMin + spacing), (float)(leaf.YMin + spacing), (float)(leaf.XMax - leaf.XMin - spacing), (float)(leaf.YMax - leaf.YMin - spacing));
                 }
             }
 
@@ -60,7 +63,8 @@ namespace Quads
             {
                 for (int y = 0; y < image.Height; y++)
                 {
-                    yield return new Pixel(x, y, image.GetPixel(x, y));
+                    Color color = image.GetPixel(x, y);
+                    yield return new Pixel(x, y, new RgbColor(color.R, color.G, color.B).ToCieLab());
                 }
             }
         }
@@ -70,7 +74,7 @@ namespace Quads
             int iterations;
             if (int.TryParse(iterationsTextBox.Text, out iterations))
             {
-                if (iterations > 0)
+                if (iterations >= 0)
                     this.iterations = iterations;
             }
         }
@@ -84,11 +88,36 @@ namespace Quads
 
             Bitmap image = new Bitmap(openImageDialog.FileName);
 
+            totalIterations = 0;
+
+            resultImage.SizeMode = image.Width > resultImage.Width || image.Height > resultImage.Height ? PictureBoxSizeMode.Zoom : PictureBoxSizeMode.CenterImage;
+
             resultImage.Image = image;
 
             quadTree = new QuadTreeLeaf<Pixel, ColorAverage>(new Controller(), generatePixelEnumerable(image).ToArray());
+        }
 
-            Console.WriteLine("done");
+        private void saveGifBatchButton_Click(object sender, EventArgs e)
+        {
+            var result = saveImageDialog.ShowDialog();
+
+            if (result != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            for (int i = 0; i < steps; i++)
+            {
+                for (int a = 0; a < iterations; a++)
+                    quadTree = quadTree.Split();
+
+                totalIterations += iterations;
+
+                if ((string)shapeComboBox.SelectedItem == "Quad")
+                    resultImage.Image = drawImageWithQuads(quadTree, spacedCheckBox.Checked ? 1 : 0);
+                else if ((string)shapeComboBox.SelectedItem == "Ellipse")
+                    resultImage.Image = drawImageWithEllipses(quadTree, spacedCheckBox.Checked ? 1 : 0);
+
+                resultImage.Image.Save(saveImageDialog.FileName + totalIterations + ".gif", ImageFormat.Gif);
+            }
         }
 
         private void saveImageButton_Click(object sender, EventArgs e)
@@ -98,13 +127,25 @@ namespace Quads
             if (result != System.Windows.Forms.DialogResult.OK)
                 return;
 
-            resultImage.Image.Save(saveImageDialog.FileName, ImageFormat.Png);
+            resultImage.Image.Save(saveImageDialog.FileName + ".png", ImageFormat.Png);
+        }
+
+        private void stepsTextBox_TextChanged(object sender, EventArgs e)
+        {
+            int steps;
+            if (int.TryParse(stepsTextBox.Text, out steps))
+            {
+                if (steps >= 0)
+                    this.steps = steps;
+            }
         }
 
         private void updateResultButton_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < iterations; i++)
                 quadTree = quadTree.Split();
+
+            totalIterations += iterations;
 
             if ((string)shapeComboBox.SelectedItem == "Quad")
                 resultImage.Image = drawImageWithQuads(quadTree, spacedCheckBox.Checked ? 1 : 0);

@@ -1,7 +1,7 @@
-﻿using SharpQuadTrees;
+﻿using SharpColors;
+using SharpQuadTrees;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace Quads
@@ -10,17 +10,17 @@ namespace Quads
     {
         public ColorAverage NoContentAverage
         {
-            get { return new ColorAverage(Color.Empty, 0); }
+            get { return new ColorAverage(new CieLabColor(), -1); }
         }
 
-        public ColorAverage AggregateAverages(ColorAverage itemAverage, ColorAverage aggregator)
+        public ColorAverage AggregateAverages(IEnumerable<ColorAverage> averages)
         {
-            return new ColorAverage(itemAverage, aggregator);
+            return new ColorAverage(averages);
         }
 
-        public ColorAverage GetAverage(Pixel item)
+        public ColorAverage GetAverage(IEnumerable<Pixel> content)
         {
-            return new ColorAverage(item.Color, 0);
+            return new ColorAverage(content);
         }
 
         public double GetContentX(Pixel item)

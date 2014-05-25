@@ -39,6 +39,9 @@
             this.spacedCheckBox = new System.Windows.Forms.CheckBox();
             this.shapeComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.stepsTextBox = new System.Windows.Forms.TextBox();
+            this.stepsLabel = new System.Windows.Forms.Label();
+            this.saveGifBatchButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.resultImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,7 +70,7 @@
             // 
             // updateResultButton
             // 
-            this.updateResultButton.Location = new System.Drawing.Point(1018, 745);
+            this.updateResultButton.Location = new System.Drawing.Point(762, 745);
             this.updateResultButton.Name = "updateResultButton";
             this.updateResultButton.Size = new System.Drawing.Size(179, 23);
             this.updateResultButton.TabIndex = 3;
@@ -77,9 +80,9 @@
             // 
             // iterationsTextBox
             // 
-            this.iterationsTextBox.Location = new System.Drawing.Point(312, 747);
+            this.iterationsTextBox.Location = new System.Drawing.Point(279, 747);
             this.iterationsTextBox.Name = "iterationsTextBox";
-            this.iterationsTextBox.Size = new System.Drawing.Size(118, 20);
+            this.iterationsTextBox.Size = new System.Drawing.Size(58, 20);
             this.iterationsTextBox.TabIndex = 4;
             this.iterationsTextBox.Text = "1";
             this.iterationsTextBox.TextChanged += new System.EventHandler(this.iterationsTextBox_TextChanged);
@@ -87,7 +90,7 @@
             // iterationsLabel
             // 
             this.iterationsLabel.AutoSize = true;
-            this.iterationsLabel.Location = new System.Drawing.Point(253, 750);
+            this.iterationsLabel.Location = new System.Drawing.Point(220, 750);
             this.iterationsLabel.Name = "iterationsLabel";
             this.iterationsLabel.Size = new System.Drawing.Size(53, 13);
             this.iterationsLabel.TabIndex = 5;
@@ -95,16 +98,15 @@
             // 
             // saveImageDialog
             // 
-            this.saveImageDialog.DefaultExt = "png";
-            this.saveImageDialog.Filter = "Portable Network Graphics|*.png";
+            this.saveImageDialog.AddExtension = false;
             // 
             // saveImageButton
             // 
-            this.saveImageButton.Location = new System.Drawing.Point(1338, 745);
+            this.saveImageButton.Location = new System.Drawing.Point(979, 745);
             this.saveImageButton.Name = "saveImageButton";
-            this.saveImageButton.Size = new System.Drawing.Size(75, 23);
+            this.saveImageButton.Size = new System.Drawing.Size(127, 23);
             this.saveImageButton.TabIndex = 6;
-            this.saveImageButton.Text = "Save Image";
+            this.saveImageButton.Text = "Save Result Image";
             this.saveImageButton.UseVisualStyleBackColor = true;
             this.saveImageButton.Click += new System.EventHandler(this.saveImageButton_Click);
             // 
@@ -113,7 +115,7 @@
             this.spacedCheckBox.AutoSize = true;
             this.spacedCheckBox.Checked = true;
             this.spacedCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.spacedCheckBox.Location = new System.Drawing.Point(534, 749);
+            this.spacedCheckBox.Location = new System.Drawing.Point(400, 749);
             this.spacedCheckBox.Name = "spacedCheckBox";
             this.spacedCheckBox.Size = new System.Drawing.Size(63, 17);
             this.spacedCheckBox.TabIndex = 8;
@@ -126,25 +128,57 @@
             this.shapeComboBox.Items.AddRange(new object[] {
             "Quad",
             "Ellipse"});
-            this.shapeComboBox.Location = new System.Drawing.Point(772, 747);
+            this.shapeComboBox.Location = new System.Drawing.Point(573, 747);
             this.shapeComboBox.Name = "shapeComboBox";
             this.shapeComboBox.Size = new System.Drawing.Size(121, 21);
             this.shapeComboBox.TabIndex = 9;
+            this.shapeComboBox.Text = "Quad";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(725, 750);
+            this.label1.Location = new System.Drawing.Point(526, 750);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 10;
             this.label1.Text = "Shape:";
+            // 
+            // stepsTextBox
+            // 
+            this.stepsTextBox.Location = new System.Drawing.Point(1192, 747);
+            this.stepsTextBox.Name = "stepsTextBox";
+            this.stepsTextBox.Size = new System.Drawing.Size(56, 20);
+            this.stepsTextBox.TabIndex = 11;
+            this.stepsTextBox.Text = "1";
+            this.stepsTextBox.TextChanged += new System.EventHandler(this.stepsTextBox_TextChanged);
+            // 
+            // stepsLabel
+            // 
+            this.stepsLabel.AutoSize = true;
+            this.stepsLabel.Location = new System.Drawing.Point(1149, 750);
+            this.stepsLabel.Name = "stepsLabel";
+            this.stepsLabel.Size = new System.Drawing.Size(37, 13);
+            this.stepsLabel.TabIndex = 12;
+            this.stepsLabel.Text = "Steps:";
+            // 
+            // saveGifBatchButton
+            // 
+            this.saveGifBatchButton.Location = new System.Drawing.Point(1295, 745);
+            this.saveGifBatchButton.Name = "saveGifBatchButton";
+            this.saveGifBatchButton.Size = new System.Drawing.Size(118, 23);
+            this.saveGifBatchButton.TabIndex = 15;
+            this.saveGifBatchButton.Text = "Save GIF Batch";
+            this.saveGifBatchButton.UseVisualStyleBackColor = true;
+            this.saveGifBatchButton.Click += new System.EventHandler(this.saveGifBatchButton_Click);
             // 
             // QuadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1425, 778);
+            this.Controls.Add(this.saveGifBatchButton);
+            this.Controls.Add(this.stepsLabel);
+            this.Controls.Add(this.stepsTextBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.shapeComboBox);
             this.Controls.Add(this.spacedCheckBox);
@@ -175,6 +209,9 @@
         private System.Windows.Forms.CheckBox spacedCheckBox;
         private System.Windows.Forms.ComboBox shapeComboBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox stepsTextBox;
+        private System.Windows.Forms.Label stepsLabel;
+        private System.Windows.Forms.Button saveGifBatchButton;
     }
 }
 

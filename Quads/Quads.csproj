@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SharpColors">
+      <HintPath>..\..\SharpColors\SharpColors\bin\Release\SharpColors.dll</HintPath>
+    </Reference>
     <Reference Include="SharpQuadTrees">
       <HintPath>..\..\SharpQuadTrees\SharpQuadTrees\bin\Release\SharpQuadTrees.dll</HintPath>
     </Reference>
