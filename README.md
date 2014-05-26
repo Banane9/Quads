@@ -26,6 +26,6 @@ http://www.michaelfogleman.com/static/quads/
 
 ![Apple](http://puu.sh/91jHT.gif)
 
-![Mario](http://puu.sh/91jNH.gif)
+![Mario](http://puu.sh/91jJV.gif)
 
 ![Tomatoes](http://puu.sh/91jNH.gif)
