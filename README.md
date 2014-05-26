@@ -4,40 +4,28 @@ Computer art based on quadtrees.
 
 The program targets an input image. The input image is split into four quadrants. Each quadrant is assigned an averaged color based on the colors in the input image. The quadrant with the largest error is split into its four children quadrants to refine the image. This process is repeated N times.
 
+Uses the CIE Lab color space so that the averages make sense for human vision.
+
 ### Web Demo
 
 A web-based version can be seen here:
 
 http://www.michaelfogleman.com/static/quads/
 
-### Animation
+### Still Samples
 
-The first animation shows the natural iterative process of the algorithm.
+![Nordic Mountains](http://i.imgur.com/9Szm71Q.png)
 
-![Animation](http://i.imgur.com/UE2eOkx.gif)
+![Zebra](http://i.imgur.com/lU1f0Yt.png)
 
-The second animation shows a top-down, breadth-first traversal of the final quadtree.
+### Animated Samples
 
-![Animation](http://i.imgur.com/l3sv0In.gif)
+![Nordic Mountains](http://puu.sh/91jMp.gif)
 
-### Samples
+![Zebra](http://puu.sh/91jOJ.gif)
 
-![Flower](http://i.imgur.com/RomAaw7.png)
+![Apple](http://puu.sh/91jHT.gif)
 
-![Flower](http://i.imgur.com/kjosmto.png)
+![Mario](http://puu.sh/91jNH.gif)
 
-![Apple](http://i.imgur.com/IiPaYO7.png)
-
-![Apple](http://i.imgur.com/ZB83zVM.png)
-
-![Butterfly](http://i.imgur.com/ujiZTwx.png)
-
-![Lenna](http://i.imgur.com/OFdLCrD.png)
-
-![Landscape](http://i.imgur.com/mBQAXFp.png)
-
-![Zebra](http://i.imgur.com/iwyUHFR.png)
-
-![Fractal](http://i.imgur.com/WJmHRcV.png)
-
-![Mario](http://i.imgur.com/QvYyT3V.gif)
+![Tomatoes](http://puu.sh/91jNH.gif)
