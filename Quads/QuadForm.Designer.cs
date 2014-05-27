@@ -52,7 +52,7 @@
             // 
             // openImageButton
             // 
-            this.openImageButton.Location = new System.Drawing.Point(12, 745);
+            this.openImageButton.Location = new System.Drawing.Point(12, 650);
             this.openImageButton.Name = "openImageButton";
             this.openImageButton.Size = new System.Drawing.Size(152, 23);
             this.openImageButton.TabIndex = 0;
@@ -62,15 +62,16 @@
             // 
             // resultImage
             // 
-            this.resultImage.Location = new System.Drawing.Point(12, 12);
+            this.resultImage.Location = new System.Drawing.Point(0, 0);
+            this.resultImage.Margin = new System.Windows.Forms.Padding(0);
             this.resultImage.Name = "resultImage";
-            this.resultImage.Size = new System.Drawing.Size(1401, 725);
+            this.resultImage.Size = new System.Drawing.Size(1324, 639);
             this.resultImage.TabIndex = 2;
             this.resultImage.TabStop = false;
             // 
             // updateResultButton
             // 
-            this.updateResultButton.Location = new System.Drawing.Point(762, 745);
+            this.updateResultButton.Location = new System.Drawing.Point(646, 650);
             this.updateResultButton.Name = "updateResultButton";
             this.updateResultButton.Size = new System.Drawing.Size(179, 23);
             this.updateResultButton.TabIndex = 3;
@@ -80,7 +81,7 @@
             // 
             // iterationsTextBox
             // 
-            this.iterationsTextBox.Location = new System.Drawing.Point(279, 747);
+            this.iterationsTextBox.Location = new System.Drawing.Point(251, 652);
             this.iterationsTextBox.Name = "iterationsTextBox";
             this.iterationsTextBox.Size = new System.Drawing.Size(58, 20);
             this.iterationsTextBox.TabIndex = 4;
@@ -90,7 +91,7 @@
             // iterationsLabel
             // 
             this.iterationsLabel.AutoSize = true;
-            this.iterationsLabel.Location = new System.Drawing.Point(220, 750);
+            this.iterationsLabel.Location = new System.Drawing.Point(192, 655);
             this.iterationsLabel.Name = "iterationsLabel";
             this.iterationsLabel.Size = new System.Drawing.Size(53, 13);
             this.iterationsLabel.TabIndex = 5;
@@ -102,7 +103,7 @@
             // 
             // saveImageButton
             // 
-            this.saveImageButton.Location = new System.Drawing.Point(979, 745);
+            this.saveImageButton.Location = new System.Drawing.Point(863, 650);
             this.saveImageButton.Name = "saveImageButton";
             this.saveImageButton.Size = new System.Drawing.Size(127, 23);
             this.saveImageButton.TabIndex = 6;
@@ -115,7 +116,7 @@
             this.spacedCheckBox.AutoSize = true;
             this.spacedCheckBox.Checked = true;
             this.spacedCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.spacedCheckBox.Location = new System.Drawing.Point(400, 749);
+            this.spacedCheckBox.Location = new System.Drawing.Point(347, 654);
             this.spacedCheckBox.Name = "spacedCheckBox";
             this.spacedCheckBox.Size = new System.Drawing.Size(63, 17);
             this.spacedCheckBox.TabIndex = 8;
@@ -128,7 +129,7 @@
             this.shapeComboBox.Items.AddRange(new object[] {
             "Quad",
             "Ellipse"});
-            this.shapeComboBox.Location = new System.Drawing.Point(573, 747);
+            this.shapeComboBox.Location = new System.Drawing.Point(485, 652);
             this.shapeComboBox.Name = "shapeComboBox";
             this.shapeComboBox.Size = new System.Drawing.Size(121, 21);
             this.shapeComboBox.TabIndex = 9;
@@ -137,7 +138,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(526, 750);
+            this.label1.Location = new System.Drawing.Point(438, 655);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 10;
@@ -145,7 +146,7 @@
             // 
             // stepsTextBox
             // 
-            this.stepsTextBox.Location = new System.Drawing.Point(1192, 747);
+            this.stepsTextBox.Location = new System.Drawing.Point(1091, 652);
             this.stepsTextBox.Name = "stepsTextBox";
             this.stepsTextBox.Size = new System.Drawing.Size(56, 20);
             this.stepsTextBox.TabIndex = 11;
@@ -155,15 +156,16 @@
             // stepsLabel
             // 
             this.stepsLabel.AutoSize = true;
-            this.stepsLabel.Location = new System.Drawing.Point(1149, 750);
+            this.stepsLabel.Location = new System.Drawing.Point(1048, 655);
             this.stepsLabel.Name = "stepsLabel";
             this.stepsLabel.Size = new System.Drawing.Size(37, 13);
             this.stepsLabel.TabIndex = 12;
             this.stepsLabel.Text = "Steps:";
+            this.stepsLabel.Click += new System.EventHandler(this.stepsLabel_Click);
             // 
             // saveGifBatchButton
             // 
-            this.saveGifBatchButton.Location = new System.Drawing.Point(1295, 745);
+            this.saveGifBatchButton.Location = new System.Drawing.Point(1194, 650);
             this.saveGifBatchButton.Name = "saveGifBatchButton";
             this.saveGifBatchButton.Size = new System.Drawing.Size(118, 23);
             this.saveGifBatchButton.TabIndex = 15;
@@ -175,7 +177,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1425, 778);
+            this.ClientSize = new System.Drawing.Size(1324, 688);
             this.Controls.Add(this.saveGifBatchButton);
             this.Controls.Add(this.stepsLabel);
             this.Controls.Add(this.stepsTextBox);

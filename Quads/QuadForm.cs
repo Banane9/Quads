@@ -130,6 +130,11 @@ namespace Quads
             resultImage.Image.Save(saveImageDialog.FileName + ".png", ImageFormat.Png);
         }
 
+        private void stepsLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void stepsTextBox_TextChanged(object sender, EventArgs e)
         {
             int steps;
